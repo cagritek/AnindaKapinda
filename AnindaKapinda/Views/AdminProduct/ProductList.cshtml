@@ -1,0 +1,84 @@
+﻿@model AnindaKapinda.Models.ViewModels.ProductListViewModel
+
+@{
+    ViewData["Title"] = "List";
+}
+
+
+<hr />
+<p>
+    <a class="btn btn-primary" asp-action="ProductCreate">Ürün Ekle</a>
+</p>
+@if (ViewBag.Message != null)
+{
+    <h6 style="color:red">@ViewBag.Message</h6>
+}
+
+<div class="row">
+    <div class="col-md-3">
+        <ul class="list-group">
+            <li class="list-group-item  list-group-item-dark">KATEGORİLER</li>
+
+            @foreach (Category item in Model.Categories)
+            {
+                <li class="list-group-item"><a asp-action="ProductList" asp-route-id="@item.CategoryId">@item.CategoryName</a></li>
+            }
+            <li class="list-group-item"><a asp-action="ProductList" asp-route-id="">Tümü</a></li>
+        </ul>
+    </div>
+    <div class="col-md-9">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayName("Ürün Adı")
+                    </th>
+                    <th>
+                        @Html.DisplayName("Fiyatı")
+                    </th>
+                    <th>
+                        @Html.DisplayName("İndirimli Fiyat")
+                    </th>
+                    <th>
+                        @Html.DisplayName("Açıklama")
+                    </th>
+                    <th>
+                        @Html.DisplayName("Satışta Mı?")
+                    </th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (Product item in Model.Products)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ProductName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Price)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DiscountedPrice)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Description)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.IsActive)
+                        </td>
+                        <td>
+                            <a class="btn btn-primary" asp-action="ProductEdit" asp-route-id="@item.ProductId" >Düzenle</a>
+                        </td>
+
+                        <td>
+                            <a class="btn btn-danger" asp-action="ProductDelete" asp-route-id="@item.ProductId" >Sil</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+

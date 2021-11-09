@@ -1,0 +1,48 @@
+﻿@model IEnumerable<AnindaKapinda.Models.Order>
+
+@{
+    ViewData["Title"] = "OrderList";
+}
+@if (ViewBag.Message != null)
+{
+    <h6 style="color:red">@ViewBag.Message</h6>
+}
+<br />
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Sipariş Numarası
+            </th>
+            <th>
+                Sipariş Tarihi
+            </th>
+            <th>
+                Durum
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderDate)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                <a asp-action="OrderDetail" asp-route-id="@item.OrderId" class="btn btn-primary">Detay</a>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>

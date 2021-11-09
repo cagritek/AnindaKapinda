@@ -1,0 +1,105 @@
+﻿@model IEnumerable<AnindaKapinda.Models.ViewModels.CartItem>
+
+@{
+    ViewData["Title"] = "CartList";
+}
+
+
+@if (ViewBag.Message != null)
+{
+    <h6 style="color:red">@ViewBag.Message</h6>
+}
+<br />
+<hr />
+
+@if (Model != null)
+{
+    <div class="col-md-12">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>@Html.DisplayName("Ürün Görseli")</th>
+                    <th>
+                        @Html.DisplayName("Ürün Adı")
+                    </th>
+                    <th>
+                        @Html.DisplayName("Birim Fiyat")
+                    </th>
+                    <th>
+                        @Html.DisplayName("Miktar")
+                    </th>
+                    <th id="Total">Toplam Tutar:@(Model.Sum(a=> a.Quantity * a.Price))₺</th>
+                    @{
+                        if (Model.Sum(a => a.Quantity * a.Price) != 0)
+                        {
+                            <th>
+                                <a asp-action="Payment" asp-route-id="" class="btn btn-primary">Ödemeye Geç</a>
+                            </th>
+                        }
+                    }
+
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var item in Model)
+                {
+                <tr>
+                    <td align="center" valign="middle">
+                        <img src="~/urun-gorseli-hazirlaniyor.png" alt="Sample Photo" Height="100" Width="100" />
+
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Price)
+                    </td>
+                    <td><input type="number" min="1" value="@item.Quantity" data-quantity="@item.Quantity " class="input col-sm-4" /></td>
+                   
+                    <td>
+                        <a asp-action="DeleteFromCart" data-productID="@item.ProductID" asp-route-id="@item.ProductID" class="btn btn-danger">Sil</a>
+
+                    </td>
+                    <td><input type="hidden" value="@item.ProductID" /></td>
+
+                </tr>
+                }
+
+
+            </tbody>
+        </table>
+    </div>
+}
+else
+{
+    <h2>Sepetiniz Boş.</h2>
+}
+
+@section Scripts{
+    <script>
+        $(".input").change(function () {
+
+            var tr = $(this).closest('tr');
+            var Quantity = tr.find('td:eq(3) input').val();
+            var productID = tr.find('td:eq(5) input').val();
+
+
+            $.ajax({
+                type: "GET",
+                url: "/Cart/AddToCart?input=" + productID + "-" + Quantity,
+                success: function (data) {
+                    if (data == "Ürün bulunamadı") {
+                        alert(data);
+                    }
+                    else {
+                        var element = document.getElementById("Total");
+                        element.innerHTML = "Toplam Tutar:" + data + "₺";
+                    }
+                }
+            });
+
+        });
+
+    </script>
+}

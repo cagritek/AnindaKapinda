@@ -1,0 +1,87 @@
+﻿@model IEnumerable<AnindaKapinda.Models.User>
+
+@{
+    ViewData["Title"] = "EmployeeList";
+}
+
+
+<hr />
+<p>
+    <a asp-action="EmployeeCreate" class="btn btn-primary">Çalışan Ekle</a>
+</p>
+
+<div class="row">
+    <div class="col-md-2">
+        <ul class="list-group">
+            <li class="list-group-item  list-group-item-dark">Çalışan Türü</li>
+
+
+            <li class="list-group-item"><a asp-action="EmployeeList" asp-route-roleId="3">Kuryeler</a></li>
+            <li class="list-group-item"><a asp-action="EmployeeList" asp-route-roleId="4">Market Çalışanları</a></li>
+
+            <li class="list-group-item"><a asp-action="EmployeeList" asp-route-roleId="">Tümü</a></li>
+        </ul>
+    </div>
+
+    <div class="col-md-10">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayName("Ad")
+                    </th>
+                    <th>
+                        @Html.DisplayName("Soyad")
+                    </th>
+                    <th>
+                        @Html.DisplayName("Doğum Tarihi")
+                    </th>
+
+                    <th>
+                        @Html.DisplayName("Email")
+                    </th>
+
+                    <th>
+                        @Html.DisplayName("Telefon Numarası")
+                    </th>
+
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+
+
+                    @if (item.RoleId == 3 || item.RoleId == 4)
+                    {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Surname)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BirthDate)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PhoneNumber)
+                    </td>
+
+                    <td>
+                        <a asp-action="EmployeeDelete" asp-route-id="@item.Id" class="btn btn-danger">Sil</a>
+                    </td>
+                </tr>
+                    }
+
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

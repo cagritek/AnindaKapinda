@@ -1,0 +1,137 @@
+﻿@model AnindaKapinda.Models.ViewModels.ProductListViewModel
+
+@{
+    ViewData["Title"] = "List";
+}
+
+
+
+@if (ViewBag.Message != null)
+{
+    <h6 style="color:red">@ViewBag.Message</h6>
+}
+<br />
+<hr />
+
+@{
+    var Cart = ViewBag.Cart;
+    var sum = 0;
+}
+
+@{ if (Cart != null)
+        foreach (var item in Cart)
+        {
+            sum+= (item.Quantity * item.Price);
+        }
+}
+
+
+<div class="row">
+    <div class="col-md-3">
+        <ul class="list-group">
+            <li class="list-group-item "><a asp-action="CartList" asp-controller="Cart" asp-route-id="">Sepetim</a></li>
+            <li class="list-group-item " id="Sepet"><a asp-action="ProductList" asp-route-id=""></a> Sepet Tutarı=@sum₺</li>
+        </ul>
+
+
+        <ul class="list-group">
+
+            <li class="list-group-item  list-group-item-dark">KATEGORİLER</li>
+
+            @foreach (Category item in Model.Categories)
+            {
+                <li class="list-group-item"><a asp-action="ProductList" asp-route-id="@item.CategoryId">@item.CategoryName</a></li>
+            }
+            <li class="list-group-item"><a asp-action="ProductList" asp-route-id="">Tümü</a></li>
+        </ul>
+    </div>
+    <div class="col-md-9">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayName("Ürün Görseli")
+                    </th>
+
+                    <th>
+                        @Html.DisplayName("Ürün Adı")
+                    </th>
+                    <th>
+                        @Html.DisplayName("Fiyatı")
+                    </th>
+
+                    <th>
+                        @Html.DisplayName("Açıklama")
+                    </th>
+
+                    <th> @Html.DisplayName("Ürün Miktarı")</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (Product item in Model.Products)
+                {
+                    <tr>
+                        <td align="center" valign="middle">
+                            <img src="~/urun-gorseli-hazirlaniyor.png" alt="Sample Photo" Height = "100" Width = "100"/>
+                           
+                        </td>
+
+                        <td align="center" valign="middle">
+                            @Html.DisplayFor(modelItem => item.ProductName)
+                        </td>
+                        @if (item.DiscountedPrice != null)
+                        {
+                            <td align="center" valign="middle" >
+                                @Html.DisplayFor(modelItem => item.DiscountedPrice)
+                            </td>
+                        }
+                        else
+                        {
+                            <td align="center" valign="middle">
+                                @Html.DisplayFor(modelItem => item.Price)
+                            </td>
+                        }
+                        <td align="center" valign="middle">
+                            @Html.DisplayFor(modelItem => item.Description)
+                        </td>
+
+                        <td align="center" valign="middle"><input type="number" min="1" value="1" data-quantity="@item.Quantity " class="col-sm-4" /></td>
+                        <td align="center" valign="middle"><a href="javascript:void(0)" data-productID="@item.ProductId" class="add-cart btn btn-primary">Sepete Ekle</a></td>
+
+
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        $(".add-cart").click(function () {
+
+            var productID = $(this).attr("data-productID");
+            var tr = $(this).closest('tr');
+            var Quantity = tr.find('td:eq(4) input').val();
+
+
+
+            $.ajax({
+                type: "GET",
+                url: "/Cart/AddToCart?input=" + productID + "-" + Quantity,
+                success: function (data) {
+                    if (data == "Ürün bulunamadı") {
+                        alert(data);
+                    }
+                    else {
+                        var element = document.getElementById("Sepet");
+                        element.innerHTML = "Sepet Tutarı=" + data + "₺";
+                    }
+                }
+            });
+
+        });
+    </script>
+}

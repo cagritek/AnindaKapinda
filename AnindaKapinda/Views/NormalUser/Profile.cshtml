@@ -1,0 +1,59 @@
+﻿@model AnindaKapinda.Models.User
+
+@{
+    ViewData["Title"] = "Profile";
+}
+
+
+
+@if (ViewBag.Message != null)
+{
+    <h6 style="color:red">@ViewBag.Message</h6>
+}
+<br />
+<hr />
+<div class="row">
+    <div class="col-md-3">
+        @Html.Partial("_menuPartial")
+    </div>
+    <div class="col-md-9">
+
+        <div>
+            <dl class="row">
+                <dt class="col-sm-2">
+                    @Html.DisplayName("Ad")
+                </dt>
+                <dd class="col-sm-10">
+                    :@Html.DisplayFor(model => model.Name)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayName("Soyad")
+                </dt>
+                <dd class="col-sm-10">
+                    :@Html.DisplayFor(model => model.Surname)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayName("Doğum Tarihi")
+                </dt>
+                <dd class="col-sm-10">
+                    :@Html.DisplayFor(model => model.BirthDate)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayName("Email")
+                </dt>
+                <dd class="col-sm-10">
+                    :@Html.DisplayFor(model => model.Email)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayName("Telefon Numarası")
+                </dt>
+                <dd class="col-sm-10">
+                    :@Html.DisplayFor(model => model.PhoneNumber)
+                </dd>
+            </dl>
+        </div>
+        <div>
+            <a asp-action="EditProfile" asp-route-id="@Model.Id" class="btn btn-primary">Düzenle</a> 
+        </div>
+    </div>
+</div>

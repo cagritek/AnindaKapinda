@@ -1,0 +1,49 @@
+﻿@model IEnumerable<Category>
+
+@{
+    ViewData["Title"] = "CategoryList";
+}
+<hr />
+<div>
+    <p>
+        <a asp-action="CategoryCreate" class="btn btn-primary">Kategori Ekle</a>
+    </p>
+</div>
+
+@if (ViewBag.Message != null)
+{
+    <h3>@ViewBag.Message</h3>
+}
+<div class="row">
+    <div class="col-md-6">
+        <div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayName("Kategori Adı")
+                        </th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CategoryName)
+                            </td>
+                            <td>
+                                <a asp-action="CategoryEdit" asp-route-id="@item.CategoryId" class="btn btn-primary">Düzenle</a>
+                            </td>
+                            <td>
+                                <a asp-action="CategoryDelete" asp-route-id="@item.CategoryId" class="btn btn-danger">Sil</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+        </div>
+        </div></div>

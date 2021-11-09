@@ -1,0 +1,37 @@
+﻿@model AnindaKapinda.Models.Category
+
+@{
+    ViewData["Title"] = "CategoryCreate";
+}
+
+<h4>Kategori Ekle</h4>
+
+
+<hr />
+@if (ViewBag.Message != null)
+{
+    <h6 style="color:red">@ViewBag.Message</h6>
+}
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="CategoryCreate">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="CategoryName" class="control-label">Kategori Adı</label>
+                <input asp-for="CategoryName" class="form-control" />
+                <span asp-validation-for="CategoryName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Kaydet" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="CategoryList">Geri Dön</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

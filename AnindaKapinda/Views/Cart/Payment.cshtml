@@ -1,0 +1,48 @@
+﻿@model AnindaKapinda.Models.PaymentMethod
+
+@{
+    ViewData["Title"] = "List";
+}
+<br />
+<hr />
+
+
+@if (ViewBag.Message != null)
+{
+    <h6 style="color:red">@ViewBag.Message</h6>
+    <a asp-controller="NormalUser" asp-action="PaymentMethods">Ödeme Yöntemi Ekle</a>
+}
+else
+{
+
+    <div class="row">
+
+        <div class="col-md-9">
+
+            <div>
+
+                <dl class="row">
+                    <dt class="col-sm-2">
+                        @Html.DisplayName("Kart Adı")
+                    </dt>
+                    <dd class="col-sm-10">
+                        :@Html.DisplayFor(model => model.CardName)
+                    </dd>
+                    <dt class="col-sm-2">
+                        @Html.DisplayName("Kart Numarası")
+                    </dt>
+                    <dd class="col-sm-10">
+                        :@Html.DisplayFor(model => model.CardNumber)
+                    </dd>
+
+                </dl>
+            </div>
+            <div>
+                <a asp-action="MakeOrder" asp-route-id="" class="btn btn-primary">Siparişi Tamamla</a>
+
+            </div>
+        </div>
+    </div>
+
+}
+

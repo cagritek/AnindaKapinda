@@ -1,0 +1,64 @@
+﻿
+
+<div class="container">
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+        <a class="navbar-brand" href="#">Anında Kapında</a>
+
+        <div class="collapse navbar-collapse" id="collapsibleNavbar">
+            <ul class="navbar-nav">
+                @if (User.IsInRole("admin"))
+                {
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="AdminCategory" asp-action="CategoryList">Kategoriler</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="AdminProduct" asp-action="ProductList">Ürünler</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="AdminEmployee" asp-action="EmployeeList">Çalışanlar</a>
+                    </li>
+                }
+                else if (User.IsInRole("normal"))
+                {
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="NormalUser" asp-action="ProductList">Ürünler</a>
+                    </li>
+                }
+                else if (User.IsInRole("marketmember"))
+                {
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="MarketMember" asp-action="OrderList">Bekleyen Siparişler</a>
+                    </li>
+                }
+
+
+                else if (User.IsInRole("shipper"))
+                {
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Shipper" asp-action="OrderList">Bekleyen Siparişler</a>
+                    </li>
+
+                }
+             
+
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                @if (User.IsInRole("normal"))
+                {
+                   // <li class="nav-item"><a class="nav-link" asp-controller="NormalUser" asp-action="Index"> Sepetim</a></li>
+                    <li class="nav-item"><a class="nav-link" asp-controller="NormalUser" asp-action="Profile"> Profilim</a></li>
+                }
+                @if (User.IsInRole("normal") || User.IsInRole("shipper") || User.IsInRole("marketmember") || User.IsInRole("admin"))
+                {
+                    <li class="nav-item"><a class="nav-link" asp-controller="Security" asp-action="Logout"> Çıkış Yap</a></li>
+                }
+                else if (!User.IsInRole("normal") || !User.IsInRole("shipper") || !User.IsInRole("marketmember") || !User.IsInRole("admin"))
+                {
+                    <li class="nav-item"><a class="nav-link" asp-controller="Security" asp-action="Login"> Giriş Yap</a></li>
+                    <li class="nav-item"><a class="nav-link" asp-controller="Security" asp-action="Register"> Kayıt Ol</a></li>
+                }
+               
+            </ul>
+        </div>
+    </nav>
+</div>
